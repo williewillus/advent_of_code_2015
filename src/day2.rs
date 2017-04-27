@@ -3,32 +3,32 @@ use std::fs::File;
 use std::io::BufRead;
 use std::io::BufReader;
 
-fn parse_dims(s: String) -> [u32; 3] {
+fn parse_dims(s: String) -> (u32, u32, u32) {
     let dims: Vec<_> = s.split('x').collect();
     let l = dims[0].parse::<u32>().expect("malformed number");
     let w = dims[1].parse::<u32>().expect("malformed number");
     let h = dims[2].parse::<u32>().expect("malformed number");
-    [l, w, h]
+    (l, w, h)
 }
 
 fn calculate_ribbon(s: String) -> u32 {
-    let dims = parse_dims(s);
+    let (l, w, h) = parse_dims(s);
 
-    let lw = 2*dims[0] + 2*dims[1];
-    let lh = 2*dims[0] + 2*dims[2];
-    let wh = 2*dims[1] + 2*dims[2];
+    let lw = 2*l + 2*w;
+    let lh = 2*l + 2*h;
+    let wh = 2*w + 2*h;
 
     let wrap = min(lw, min(lh, wh));
-    let bow = dims.iter().product::<u32>();
+    let bow = l * w * h;
     wrap + bow
 }
 
 fn calculate_wrapping_paper(s: String) -> u32 {
-    let dims = parse_dims(s);
+    let (l, w, h) = parse_dims(s);
 
-    let lw = dims[0] * dims[1];
-    let lh = dims[0] * dims[2];
-    let wh = dims[1] * dims[2];
+    let lw = l * w;
+    let lh = l * h;
+    let wh = w * h;
 
     let surface_area = 2*lw + 2*lh + 2*wh;
     let extra = min(lw, min(lh, wh));
