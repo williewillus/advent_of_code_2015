@@ -3,6 +3,8 @@ use std::fs::File;
 use std::io::BufRead;
 use std::io::BufReader;
 
+const PART_2: bool = true;
+
 fn parse_dims(s: String) -> (u32, u32, u32) {
     let dims: Vec<_> = s.split('x').collect();
     let l = dims[0].parse::<u32>().expect("malformed number");
@@ -35,8 +37,6 @@ fn calculate_wrapping_paper(s: String) -> u32 {
 
     surface_area + extra
 }
-
-const PART_2: bool = true;
 
 pub fn run() {
     let rdr = BufReader::new(File::open("d2_input.txt").expect("Couldn't read input file"));

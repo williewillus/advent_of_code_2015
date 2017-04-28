@@ -5,3 +5,5 @@ authors = ["Vincent Lee <vincent.lee@outlook.com>"]
 
 [dependencies]
 rust-crypto = "0.2.36"
+pcre = "0.2.3"
+
