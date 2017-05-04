@@ -1,3 +1,6 @@
+extern crate crypto;
+extern crate pcre;
+
 mod day1;
 mod day2;
 mod day3;

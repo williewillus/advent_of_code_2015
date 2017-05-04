@@ -1,6 +1,4 @@
-extern crate pcre;
-
-use self::pcre::Pcre;
+use pcre::Pcre;
 use std::fs::File;
 use std::io::BufRead;
 use std::io::BufReader;
@@ -14,7 +12,7 @@ fn is_vowel(c: &char) -> bool {
     }
 }
 
-fn has_consecutive_letters(s: &String) -> bool {
+fn has_consecutive_letters(s: &str) -> bool {
     let mut prev_char = s.chars().next().unwrap();
 
     for c in s.chars().skip(1) {

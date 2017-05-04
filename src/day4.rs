@@ -1,7 +1,5 @@
-extern crate crypto;
-
-use self::crypto::md5;
-use self::crypto::digest::Digest;
+use crypto::md5;
+use crypto::digest::Digest;
 
 const SECRET: &str = "ckczppom";
 
