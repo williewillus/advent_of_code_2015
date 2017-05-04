@@ -9,7 +9,8 @@ mod day4;
 mod day5;
 mod day6;
 mod day10;
+mod day23;
 
 fn main() {
-    day10::run();
+    day23::run();
 }
