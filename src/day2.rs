@@ -7,9 +7,9 @@ const PART_2: bool = true;
 
 fn parse_dims(s: String) -> (u32, u32, u32) {
     let dims: Vec<_> = s.split('x').collect();
-    let l = dims[0].parse::<u32>().expect("malformed number");
-    let w = dims[1].parse::<u32>().expect("malformed number");
-    let h = dims[2].parse::<u32>().expect("malformed number");
+    let l = dims[0].parse().expect("malformed number");
+    let w = dims[1].parse().expect("malformed number");
+    let h = dims[2].parse().expect("malformed number");
     (l, w, h)
 }
 
