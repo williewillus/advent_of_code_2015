@@ -12,6 +12,7 @@ mod day6;
 mod day10;
 mod day12;
 mod day23;
+mod util;
 
 fn main() {
     day12::run();

@@ -1,11 +1,7 @@
-use std::fs::File;
-use std::io::Read;
-use std::io::BufReader;
+use util;
 
 pub fn run() {
-    let mut input = String::new();
-    let mut rdr = BufReader::new(File::open("d1_input.txt").expect("Couldn't open input file!"));
-    rdr.read_to_string(&mut input).expect("failure reading input");
+    let input = util::read_all("d1_input.txt").expect("failed to read input");
 
     let mut floor: i32 = 0;
 

@@ -1,7 +1,5 @@
-use std::fs::File;
-use std::io::Read;
-use std::io::BufReader;
 use std::collections::HashSet;
+use util;
 
 fn move_pos(pos: (i32, i32), c: char) -> (i32, i32) {
     match c {
@@ -14,9 +12,7 @@ fn move_pos(pos: (i32, i32), c: char) -> (i32, i32) {
 }
 
 pub fn run() {
-    let mut input = String::new();
-    let mut rdr = BufReader::new(File::open("d3_input.txt").expect("Couldn't open input file!"));
-    rdr.read_to_string(&mut input).expect("failure reading input");
+    let input = util::read_all("d3_input.txt").expect("failed to read input");
 
     let mut cur_pos = (0, 0);
     let mut visited = HashSet::new();
