@@ -1,6 +1,7 @@
 extern crate crypto;
 extern crate pcre;
 extern crate regex;
+extern crate serde_json;
 
 mod day1;
 mod day2;
@@ -9,8 +10,9 @@ mod day4;
 mod day5;
 mod day6;
 mod day10;
+mod day12;
 mod day23;
 
 fn main() {
-    day23::run();
+    day12::run();
 }
