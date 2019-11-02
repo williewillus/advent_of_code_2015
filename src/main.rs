@@ -9,6 +9,7 @@ mod day8;
 mod day10;
 mod day11;
 mod day12;
+mod day14;
 mod day17;
 mod day23;
 mod util;
@@ -31,6 +32,7 @@ fn main() -> Result<(), String> {
 	10 => day10::run(),
 	11 => day11::run(),
 	12 => day12::run(),
+	14 => day14::run(),
 	17 => day17::run(),
 	23 => day23::run(),
 	_ => return Err(format!("Unknown day {}", day)),
