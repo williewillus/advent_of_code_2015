@@ -1,4 +1,4 @@
-use util;
+use crate::util;
 
 pub fn run() {
     let input = util::read_all("d1_input.txt").expect("failed to read input");

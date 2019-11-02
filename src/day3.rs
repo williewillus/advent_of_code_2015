@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use util;
+use crate::util;
 
 fn move_pos(pos: (i32, i32), c: char) -> (i32, i32) {
     match c {
