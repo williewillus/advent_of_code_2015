@@ -1,5 +1,5 @@
-use std::collections::{HashMap, HashSet};
 use crate::util;
+use itertools::Itertools;
 use regex::Regex;
 
 /// Iterator yielding the positions of the one bits in the given value, from the right (LSB is position 0)
@@ -20,7 +20,6 @@ impl OneBitIterator {
             next,
         }
     }
-
 }
 
 impl Iterator for OneBitIterator {
@@ -39,6 +38,7 @@ impl Iterator for OneBitIterator {
     }
 }
 
+#[cfg(test)]
 mod test {
     use super::OneBitIterator;
     
@@ -115,7 +115,7 @@ pub fn run() {
         // there are still num_unvisited cities left. for each combination of those remaining cities
         for mask in 0usize..1 << city_ids.len() {
             if mask.count_ones() as usize == num_unvisited {
-                // for each remaining city
+                // for each remaining city k
                 for k in OneBitIterator::new(mask) {
                     let mask_no_k = mask & !(1 << k);
                     // for each remaining city m *besides* k, get the minimum cost of going from m back to start, passing through the remaining cities not including k
@@ -138,8 +138,22 @@ pub fn run() {
     }
 
     // now, the final answer is the minimum over each choice of start city and completing a path back to start passing through every city
-    let ans = (0..city_ids.len())
+    let p1 = (0..city_ids.len())
         .map(|k| dp[(1 << city_ids.len()) - 1][k])
-        .min().expect("A minimum should always exist");
-    println!("Part 1: {}", ans);
+        .min().unwrap();
+    println!("Part 1: {}", p1);
+
+    // after all that beautiful TSP......a brute force part 2
+    let p2 = (0..city_ids.len())
+        .permutations(city_ids.len())
+        .map(|p| path_cost(&p, &costs))
+        .max().unwrap();
+    println!("Part 2: {}", p2);
+    
+}
+
+fn path_cost(path: &[usize], costs: &[Vec<usize>]) -> usize {
+    path.windows(2)
+        .map(|p| costs[p[0]][p[1]])
+        .sum()
 }
