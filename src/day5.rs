@@ -5,10 +5,10 @@ use std::io::BufReader;
 
 const PART_2: bool = true;
 
-fn is_vowel(c: &char) -> bool {
-    match *c {
+fn is_vowel(c: char) -> bool {
+    match c {
         'a' | 'e' | 'i' | 'o' | 'u' => true,
-        _ => false
+        _ => false,
     }
 }
 
@@ -23,12 +23,15 @@ fn has_consecutive_letters(s: &str) -> bool {
         }
     }
 
-    return false;
+    false
 }
 
 fn is_nice_1(s: &String) -> bool {
-    !s.contains("ab") && !s.contains("cd") && !s.contains("pq") && !s.contains("xy")
-        && s.chars().filter(is_vowel).count() >= 3
+    !s.contains("ab")
+        && !s.contains("cd")
+        && !s.contains("pq")
+        && !s.contains("xy")
+        && s.chars().filter(|&c| is_vowel(c)).count() >= 3
         && has_consecutive_letters(s)
 }
 
@@ -45,8 +48,14 @@ fn is_nice_2(s: &String) -> bool {
 pub fn run() {
     let rdr = BufReader::new(File::open("d5_input.txt").expect("Couldn't open input file!"));
 
-    let nice_count = rdr.lines()
-                        .map(|r| r.expect("Failure reading line"))
-                        .filter(if PART_2 { is_nice_2 } else { is_nice_1 }).count();
-    println!("{} nice {} strings", nice_count, if PART_2 { "v2" } else { "v1" });
+    let nice_count = rdr
+        .lines()
+        .map(|r| r.expect("Failure reading line"))
+        .filter(if PART_2 { is_nice_2 } else { is_nice_1 })
+        .count();
+    println!(
+        "{} nice {} strings",
+        nice_count,
+        if PART_2 { "v2" } else { "v1" }
+    );
 }

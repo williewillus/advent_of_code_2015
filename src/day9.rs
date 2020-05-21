@@ -15,10 +15,7 @@ impl OneBitIterator {
         } else {
             Some(val.trailing_zeros() as usize)
         };
-        Self {
-            val,
-            next,
-        }
+        Self { val, next }
     }
 }
 
@@ -41,12 +38,18 @@ impl Iterator for OneBitIterator {
 #[cfg(test)]
 mod test {
     use super::OneBitIterator;
-    
+
     #[test]
     fn test_obi() {
         assert_eq!(0, OneBitIterator::new(0).count());
-        assert_eq!(vec![0, 2, 3, 4], OneBitIterator::new(0b11101).collect::<Vec<usize>>());
-        assert_eq!((0..std::mem::size_of::<usize>() * 8).collect::<Vec<usize>>(), OneBitIterator::new(!0).collect::<Vec<usize>>());
+        assert_eq!(
+            vec![0, 2, 3, 4],
+            OneBitIterator::new(0b11101).collect::<Vec<usize>>()
+        );
+        assert_eq!(
+            (0..std::mem::size_of::<usize>() * 8).collect::<Vec<usize>>(),
+            OneBitIterator::new(!0).collect::<Vec<usize>>()
+        );
     }
 }
 
@@ -67,8 +70,8 @@ fn read_input() -> (Vec<String>, Vec<Vec<usize>>) {
             None => {
                 a_idx = city_ids.len();
                 city_ids.push(a.to_owned());
-            },
-            Some(p) =>  {
+            }
+            Some(p) => {
                 a_idx = p.0;
             }
         }
@@ -78,8 +81,8 @@ fn read_input() -> (Vec<String>, Vec<Vec<usize>>) {
             None => {
                 b_idx = city_ids.len();
                 city_ids.push(b.to_owned());
-            },
-            Some(p) =>  {
+            }
+            Some(p) => {
                 b_idx = p.0;
             }
         }
@@ -124,7 +127,10 @@ pub fn run() {
                         .map(|m| {
                             let recur = dp[mask_no_k][m];
                             if recur == UNCOMPUTED {
-                                panic!("case {:08b}, {} wasn't computed when I asked for it", mask_no_k, m)
+                                panic!(
+                                    "case {:08b}, {} wasn't computed when I asked for it",
+                                    mask_no_k, m
+                                )
                             }
                             recur + costs[k][m]
                         })
@@ -140,20 +146,19 @@ pub fn run() {
     // now, the final answer is the minimum over each choice of start city and completing a path back to start passing through every city
     let p1 = (0..city_ids.len())
         .map(|k| dp[(1 << city_ids.len()) - 1][k])
-        .min().unwrap();
+        .min()
+        .unwrap();
     println!("Part 1: {}", p1);
 
     // after all that beautiful TSP......a brute force part 2
     let p2 = (0..city_ids.len())
         .permutations(city_ids.len())
         .map(|p| path_cost(&p, &costs))
-        .max().unwrap();
+        .max()
+        .unwrap();
     println!("Part 2: {}", p2);
-    
 }
 
 fn path_cost(path: &[usize], costs: &[Vec<usize>]) -> usize {
-    path.windows(2)
-        .map(|p| costs[p[0]][p[1]])
-        .sum()
+    path.windows(2).map(|p| costs[p[0]][p[1]]).sum()
 }

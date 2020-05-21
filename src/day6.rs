@@ -21,23 +21,23 @@ pub fn run() {
             let xmax = m[3].parse::<usize>().expect("bad xmax");
             let ymax = m[4].parse::<usize>().expect("bad ymax");
 
-            for x in xmin..xmax+1 {
-                for y in ymin..ymax+1 {
+            for x in xmin..xmax + 1 {
+                for y in ymin..ymax + 1 {
                     // compiler pls lift the conditional up
                     if s.starts_with("turn on") {
-                        part1_grid[x*1000 + y] = true;
+                        part1_grid[x * 1000 + y] = true;
 
-                        part2_grid[x*1000 + y] += 1;
+                        part2_grid[x * 1000 + y] += 1;
                     } else if s.starts_with("turn off") {
-                        part1_grid[x*1000 + y] = false;
+                        part1_grid[x * 1000 + y] = false;
 
-                        if part2_grid[x*1000 + y] > 0 {
-                            part2_grid[x*1000 + y] -= 1;
+                        if part2_grid[x * 1000 + y] > 0 {
+                            part2_grid[x * 1000 + y] -= 1;
                         }
                     } else if s.starts_with("toggle") {
-                        part1_grid[x*1000 + y] = !part1_grid[x*1000 + y];
+                        part1_grid[x * 1000 + y] = !part1_grid[x * 1000 + y];
 
-                        part2_grid[x*1000 + y] += 2;
+                        part2_grid[x * 1000 + y] += 2;
                     }
                 }
             }

@@ -1,7 +1,7 @@
 use std::fs::File;
-use std::io::Read;
 use std::io::BufRead;
 use std::io::BufReader;
+use std::io::Read;
 
 pub fn read_all(path: &str) -> Option<String> {
     let f = File::open(path);
@@ -15,7 +15,7 @@ pub fn read_all(path: &str) -> Option<String> {
         }
     }
 
-    return None;
+    None
 }
 
 pub fn lines(path: &str) -> Option<Vec<String>> {
@@ -26,5 +26,5 @@ pub fn lines(path: &str) -> Option<Vec<String>> {
         return Some(rdr.lines().filter_map(Result::ok).collect());
     }
 
-    return None;
+    None
 }

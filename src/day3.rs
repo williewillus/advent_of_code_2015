@@ -1,5 +1,5 @@
-use std::collections::HashSet;
 use crate::util;
+use std::collections::HashSet;
 
 fn move_pos(pos: (i32, i32), c: char) -> (i32, i32) {
     match c {
@@ -7,7 +7,7 @@ fn move_pos(pos: (i32, i32), c: char) -> (i32, i32) {
         'v' => (pos.0, pos.1 - 1),
         '>' => (pos.0 + 1, pos.1),
         '<' => (pos.0 - 1, pos.1),
-        _ => panic!("Invalid direction! {}", c)
+        _ => panic!("Invalid direction! {}", c),
     }
 }
 
@@ -38,7 +38,6 @@ pub fn run() {
         }
 
         robos_turn = !robos_turn;
-
 
         cur_pos = move_pos(cur_pos, c);
         visited.insert(cur_pos);

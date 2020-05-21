@@ -1,5 +1,3 @@
-
-
 const INPUT: &str = "1113222113";
 
 fn compute(iters: u32) {

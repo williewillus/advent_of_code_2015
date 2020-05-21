@@ -4,11 +4,11 @@ use std::io::BufReader;
 
 pub fn run() {
     let rdr = BufReader::new(File::open("d17_input.txt").expect("Couldn't read input file"));
-    let sizes = rdr.lines()
+    let sizes = rdr
+        .lines()
         .map(|r| r.expect("Failure reading line"))
         .map(|s| s.parse::<u32>().expect("bad container size"))
         .collect::<Vec<_>>();
-
 
     // todo DP?
     let mut minimal_used = sizes.len() as u32;
@@ -34,5 +34,11 @@ pub fn run() {
     }
 
     println!("part 1: {}", satisfying_masks.len());
-    println!("part 2: {}", satisfying_masks.iter().filter(|m: &&usize| m.count_ones() == minimal_used).count())
+    println!(
+        "part 2: {}",
+        satisfying_masks
+            .iter()
+            .filter(|m: &&usize| m.count_ones() == minimal_used)
+            .count()
+    )
 }

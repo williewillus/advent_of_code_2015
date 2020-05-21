@@ -1,6 +1,6 @@
+use crate::util;
 use regex::Regex;
 use serde_json::{self, Value};
-use crate::util;
 
 // The problem input is shallow enough, so don't mind recursive calls
 fn compute_sum(v: &Value) -> i64 {
@@ -13,7 +13,7 @@ fn compute_sum(v: &Value) -> i64 {
                 s += compute_sum(val);
             }
             s
-        },
+        }
         Value::Object(ref m) => {
             let mut s = 0;
             for v in m.values() {
@@ -22,8 +22,8 @@ fn compute_sum(v: &Value) -> i64 {
                         if v_str == "red" {
                             return 0;
                         }
-                    },
-                    _ => s += compute_sum(v)
+                    }
+                    _ => s += compute_sum(v),
                 }
             }
             s
@@ -34,7 +34,8 @@ fn compute_sum(v: &Value) -> i64 {
 pub fn run() {
     let input = util::read_all("d12_input.txt").expect("failed to read input");
 
-    let sum = Regex::new(r"-?\d+").unwrap()
+    let sum = Regex::new(r"-?\d+")
+        .unwrap()
         .find_iter(&input)
         .map(|mat| mat.as_str().parse::<i64>().expect("couldn't parse number?"))
         .sum::<i64>();

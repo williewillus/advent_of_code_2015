@@ -13,8 +13,8 @@ pub fn run() {
                     println!("Entering basement at {}", idx + 1);
                 }
                 floor -= 1
-            },
-            _ => panic!("unknown character")
+            }
+            _ => panic!("unknown character"),
         }
     }
 

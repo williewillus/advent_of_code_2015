@@ -33,7 +33,7 @@ fn is_valid(s: &[u8]) -> bool {
         return uniq_pairs.len() >= 2;
     }
 
-    return false;
+    false
 }
 
 pub fn run() {

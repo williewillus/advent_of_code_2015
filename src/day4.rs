@@ -1,5 +1,5 @@
-use crypto::md5;
 use crypto::digest::Digest;
+use crypto::md5;
 
 const SECRET: &str = "ckczppom";
 

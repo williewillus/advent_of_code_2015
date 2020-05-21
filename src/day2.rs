@@ -16,9 +16,9 @@ fn parse_dims(s: String) -> (u32, u32, u32) {
 fn calculate_ribbon(s: String) -> u32 {
     let (l, w, h) = parse_dims(s);
 
-    let lw = 2*l + 2*w;
-    let lh = 2*l + 2*h;
-    let wh = 2*w + 2*h;
+    let lw = 2 * l + 2 * w;
+    let lh = 2 * l + 2 * h;
+    let wh = 2 * w + 2 * h;
 
     let wrap = min(lw, min(lh, wh));
     let bow = l * w * h;
@@ -32,7 +32,7 @@ fn calculate_wrapping_paper(s: String) -> u32 {
     let lh = l * h;
     let wh = w * h;
 
-    let surface_area = 2*lw + 2*lh + 2*wh;
+    let surface_area = 2 * lw + 2 * lh + 2 * wh;
     let extra = min(lw, min(lh, wh));
 
     surface_area + extra
@@ -40,10 +40,19 @@ fn calculate_wrapping_paper(s: String) -> u32 {
 
 pub fn run() {
     let rdr = BufReader::new(File::open("d2_input.txt").expect("Couldn't read input file"));
-    let needed = rdr.lines()
-                    .map(|r| r.expect("Failure reading line"))
-                    .map(if PART_2 { calculate_ribbon } else { calculate_wrapping_paper })
-                    .sum::<u32>();
+    let needed = rdr
+        .lines()
+        .map(|r| r.expect("Failure reading line"))
+        .map(if PART_2 {
+            calculate_ribbon
+        } else {
+            calculate_wrapping_paper
+        })
+        .sum::<u32>();
 
-    println!("Needed {}: {} ft^2", if PART_2 { "ribbon" } else { "wrapping paper" }, needed);
+    println!(
+        "Needed {}: {} ft^2",
+        if PART_2 { "ribbon" } else { "wrapping paper" },
+        needed
+    );
 }

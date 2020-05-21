@@ -3,7 +3,9 @@ use regex::Regex;
 
 fn eval_escapes(s: &str, hex: &Regex) -> usize {
     // remove start and end quotes, then replace easy sequences
-    let nq = s[1..s.len()-1].replace(r"\\", r"\").replace(r#"\""#, r#"""#);
+    let nq = s[1..s.len() - 1]
+        .replace(r"\\", r"\")
+        .replace(r#"\""#, r#"""#);
 
     // Cheat: instead of actually replacing hex escapes with their character,
     // just remove them and add the count separately
@@ -15,11 +17,11 @@ fn eval_escapes(s: &str, hex: &Regex) -> usize {
 fn expand(s: &str) -> usize {
     let mut res = 2; // Open and close quotes
     for c in s.chars() {
-	if c == '"' || c == '\\' {
-	    res += 2;
-	} else {
-	    res += 1;
-	}
+        if c == '"' || c == '\\' {
+            res += 2;
+        } else {
+            res += 1;
+        }
     }
     res
 }
