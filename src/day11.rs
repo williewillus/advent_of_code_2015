@@ -2,8 +2,8 @@ use pcre::Pcre;
 use std::collections::HashSet;
 use std::str;
 
-static INPUT: &str = "cqjxjnds";
-const INPUT_SIZE: usize = 8;
+const INPUT: &str = "cqjxjnds";
+const INPUT_SIZE: usize = INPUT.len();
 
 fn rotate_str(s: &mut [u8]) {
     for idx in (0..s.len()).rev() {

@@ -5,8 +5,8 @@ authors = ["Vincent Lee <vincent.lee@outlook.com>"]
 edition = "2018"
 
 [dependencies]
-itertools = "0.8"
-rust-crypto = "0.2"
+itertools = "0.9"
+md5 = "0.7"
 pcre = "0.2"
 regex = "1"
 serde_json = "1"

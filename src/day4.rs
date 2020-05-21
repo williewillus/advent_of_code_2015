@@ -1,17 +1,13 @@
-use crypto::digest::Digest;
-use crypto::md5;
+use md5::Digest;
 
 const SECRET: &str = "ckczppom";
 
-fn compute(start: &str) {
-    let mut hasher = md5::Md5::new();
-
+fn compute<F>(mut done: F) where F: FnMut(Digest) -> bool {
     for attempt in 0.. {
-        hasher.reset();
-        hasher.input_str(SECRET);
-        hasher.input_str(&attempt.to_string());
+        let s = format!("{}{}", SECRET, attempt.to_string());
+        let digest = md5::compute(s.as_bytes());
 
-        if hasher.result_str().starts_with(start) {
+        if done(digest) {
             println!("{}", attempt);
             break;
         }
@@ -19,8 +15,8 @@ fn compute(start: &str) {
 }
 
 pub fn run() {
-    compute("00000");
+    compute(|d| d[0] == 0 && d[1] == 0 && d[2] & 0xF0 == 0);
 
     // Run with optimizations :P
-    compute("000000");
+    compute(|d| d[0] == 0 && d[1] == 0 && d[2] == 0);
 }
