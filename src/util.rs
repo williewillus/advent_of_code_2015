@@ -22,8 +22,8 @@ pub fn lines(path: &str) -> Option<Vec<String>> {
     let f = File::open(path);
 
     if f.is_ok() {
-	let rdr = BufReader::new(f.unwrap());
-	return Some(rdr.lines().filter_map(Result::ok).collect());
+        let rdr = BufReader::new(f.unwrap());
+        return Some(rdr.lines().filter_map(Result::ok).collect());
     }
 
     return None;
