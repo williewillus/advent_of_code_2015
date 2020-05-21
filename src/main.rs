@@ -2,6 +2,7 @@ mod day1;
 mod day10;
 mod day11;
 mod day12;
+mod day13;
 mod day14;
 mod day17;
 mod day2;
@@ -34,6 +35,7 @@ fn main() -> Result<(), String> {
         10 => day10::run(),
         11 => day11::run(),
         12 => day12::run(),
+        13 => day13::run(),
         14 => day14::run(),
         17 => day17::run(),
         23 => day23::run(),
