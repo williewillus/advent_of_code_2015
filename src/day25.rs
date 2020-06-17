@@ -1,19 +1,19 @@
 const SEED: usize = 20151125;
 
-fn sum_to(n: i32) -> i32 {
+const fn sum_to(n: i32) -> i32 {
     (n * (n + 1)) / 2
 }
 
 /// Given a row, column on the table, calculate which iteration of the generation algorithm it was calculated on
-fn unfold(row: i32, col: i32) -> usize {
+const fn unfold(row: i32, col: i32) -> usize {
     // which diagonal am I on? = the column that I end up at when I move as many rows as I can up and right
     let diagonal = col + row - 1;
 
     // account for all previous diagonal groups
     let previous_groups = sum_to(diagonal - 1);
 
-    // then for my offset within my diagonal group, subtract 1 to make 0-indexed
-    (previous_groups + col - 1) as usize
+    // then for my offset within my diagonal group
+    (previous_groups + col) as usize
 }
 
 fn run_iter(v: &usize) -> Option<usize> {
@@ -21,7 +21,7 @@ fn run_iter(v: &usize) -> Option<usize> {
 }
 
 pub fn run() {
-    let index = unfold(2978, 3083);
+    let index = unfold(2978, 3083) - 1; // zero index
     let v = std::iter::successors(Some(SEED), run_iter).nth(index).unwrap();
     println!("Part 1: {}", v);
 }
