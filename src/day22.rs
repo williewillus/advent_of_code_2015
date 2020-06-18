@@ -164,31 +164,29 @@ pub fn run() {
 mod test {
     use super::*;
 
-    fn execute_all(state: State, actions: &[Spell]) -> State {
-        let mut mana_used = 0;
-        let mut my_state = state;
+    fn execute_all(state: State, actions: &[Spell]) -> (i32, State) {
+        let mut cur = (0, state);
 
         for (i, &spell) in actions.iter().enumerate() {
-            let r = step((mana_used, my_state), spell);
-            mana_used += r.0;
-            my_state = r.1;
+            cur = step(cur, spell);
 
             if i < actions.len() - 1 {
-                assert!(!my_state.is_over())
+                assert!(!cur.1.is_over())
             } else {
-                assert!(my_state.is_over())
+                assert!(cur.1.is_over())
             }
         }
 
-        my_state
+        cur
     }
     
     #[test]
     fn example_one() {
         let state = State::new(10, 250, 13, 8);
         let actions = [Spell::Poison, Spell::MagicMissile];
-        let final_state = execute_all(state, &actions);
+        let (mana_used, final_state) = execute_all(state, &actions);
 
+        assert_eq!(mana_used, actions.iter().map(Spell::cost).sum::<i32>());
         assert_eq!(final_state.hp, 2);
         assert_eq!(final_state.mana, 24);
         assert!(final_state.boss_hp <= 0);
@@ -198,7 +196,9 @@ mod test {
     fn example_two() {
         let state = State::new(10, 250, 14, 8);
         let actions = [Spell::Recharge, Spell::Shield, Spell::Drain, Spell::Poison, Spell::MagicMissile];
-        let final_state = execute_all(state, &actions);
+        let (mana_used, final_state) = execute_all(state, &actions);
+
+        assert_eq!(mana_used, actions.iter().map(Spell::cost).sum::<i32>());
         assert_eq!(final_state.hp, 1);
         assert_eq!(final_state.mana, 114);
         assert!(final_state.boss_hp <= 0);
