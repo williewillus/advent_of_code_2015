@@ -34,7 +34,6 @@ impl Spell {
 struct State {
     hp: i32,
     mana: i32,
-    mana_spent: i32,
     boss_hp: i32,
     boss_damage: i32,
     shield_timer: i32,
@@ -47,7 +46,6 @@ impl State {
         Self {
             hp,
             mana,
-            mana_spent: 0,
             boss_hp,
             boss_damage,
             shield_timer: 0,
@@ -76,15 +74,15 @@ impl State {
         }
     }
 
-    fn tick_player(&mut self, spell: Spell) {
+    /// Returns mana spent this turn, if any
+    fn tick_player(&mut self, spell: Spell) -> i32 {
         self.tick_effects();
 
         if self.is_over() {
-            return;
+            return 0;
         }
 
         self.mana -= spell.cost();
-        self.mana_spent += spell.cost();
         
         match spell {
             Spell::MagicMissile => {
@@ -104,6 +102,8 @@ impl State {
                 self.recharge_timer = 5;
             }
         }
+
+        return spell.cost();
     }
 
     fn tick_boss(&mut self) {
@@ -116,18 +116,6 @@ impl State {
         let armor = if self.shield_timer > 0 { 7 } else { 0 };
         let boss_eff_dmg = (self.boss_damage - armor).max(1);
         self.hp -= boss_eff_dmg;
-    }
-
-    fn step(&self, spell: Spell) -> Self {
-        let mut ret = self.clone();
-        ret.tick_player(spell);
-
-        if ret.is_over() {
-            return ret;
-        }
-
-        ret.tick_boss();
-        ret
     }
 
     fn can_cast(&self, spell: Spell) -> bool {
@@ -148,27 +136,28 @@ impl State {
     }
 }
 
+fn step((mana_used, state): (i32, State), spell: Spell) -> (i32, State) {
+    let mut new_state = state.clone();
+    let mut new_mana_used = mana_used;
+    new_mana_used += new_state.tick_player(spell);
+
+    if !new_state.is_over() {
+        new_state.tick_boss();
+    }
+
+    (new_mana_used, new_state)
+}
+
 pub fn run() {
     let init = State::new(50, 500, 58, 9);
 
+    /*
     let mut dists = HashMap::new();
     let mut q = VecDeque::new();
-    q.push_back((0, init));
 
     while !q.is_empty() {
-        let (dist, cur) = q.pop_front().unwrap();
-        let old_dist = *dists.entry(cur.clone()).or_insert(dist);
-        if dist < old_dist {
-            dists.insert(cur.clone(), dist);
-        }
-
-        for &spell in ALL_SPELLS {
-            if cur.can_cast(spell) {
-                let next = cur.step(spell);
-            }
-        }
-
     }
+    */
 }
 
 #[cfg(test)]
@@ -176,10 +165,13 @@ mod test {
     use super::*;
 
     fn execute_all(state: State, actions: &[Spell]) -> State {
+        let mut mana_used = 0;
         let mut my_state = state;
 
         for (i, &spell) in actions.iter().enumerate() {
-            my_state = my_state.step(spell);
+            let r = step((mana_used, my_state), spell);
+            mana_used += r.0;
+            my_state = r.1;
 
             if i < actions.len() - 1 {
                 assert!(!my_state.is_over())
