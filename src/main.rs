@@ -24,12 +24,15 @@ mod day8;
 mod day9;
 mod util;
 
+use std::time::Instant;
+
 fn main() -> Result<(), String> {
     let args = std::env::args().collect::<Vec<_>>();
     if args.len() < 2 {
         return Err("Please give day".into());
     }
     let day = args[1].parse::<usize>().expect("Malformed day number");
+    let start = Instant::now();
     match day {
         1 => day1::run(),
         2 => day2::run(),
@@ -57,5 +60,7 @@ fn main() -> Result<(), String> {
         25 => day25::run(),
         _ => return Err(format!("Unknown day {}", day)),
     }
+    let elapsed = Instant::now() - start;
+    println!("Took {} ms", elapsed.as_millis());
     Ok(())
 }

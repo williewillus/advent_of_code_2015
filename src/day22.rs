@@ -110,7 +110,7 @@ impl State {
             }
         }
 
-        return spell.cost();
+        spell.cost()
     }
 
     fn tick_boss(&mut self) {
@@ -197,7 +197,7 @@ fn compute(p2: bool) -> i32 {
 
 pub fn run() {
     println!("Part 1: {}", compute(false));
-    println!("Part 1: {}", compute(true));
+    println!("Part 2: {}", compute(true));
 }
 
 #[cfg(test)]

@@ -64,9 +64,9 @@ pub fn run() {
             tmp.push((i, EMPTY));
         }
         // pairs of rings
-        for i in 0..RINGS.len() {
-            for j in i..RINGS.len() {
-                tmp.push((RINGS[i], RINGS[j]));
+        for (i, &ring_a) in RINGS.iter().enumerate() {
+            for &ring_b in RINGS.iter().skip(i) {
+                tmp.push((ring_a, ring_b));
             }
         }
         tmp

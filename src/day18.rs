@@ -84,7 +84,7 @@ impl Grid {
 
     fn load(&mut self, lines: &[String]) {
         assert_eq!(lines.len(), self.main.len());
-        for (line, row) in lines.into_iter().zip(self.main.iter_mut()) {
+        for (line, row) in lines.iter().zip(self.main.iter_mut()) {
             assert_eq!(line.len(), row.len());
             for (c, dest) in line.chars().zip(row.iter_mut()) {
                 *dest = c == '#';

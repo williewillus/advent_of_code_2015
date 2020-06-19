@@ -1,6 +1,6 @@
 use crate::util;
 use regex::Regex;
-use std::collections::{HashSet, VecDeque};
+use std::collections::HashSet;
 
 fn read_input() -> (Vec<(String, String)>, String) {
     let mut rules = Vec::new();
@@ -20,7 +20,8 @@ fn read_input() -> (Vec<(String, String)>, String) {
             init = Some(line);
         }
     }
-    return (rules, init.expect("Input file did not contain an initial value"));
+
+    (rules, init.expect("Input file did not contain an initial value"))
 }
 
 fn p1(rules: &[(String, String)], init: &str) -> usize {
