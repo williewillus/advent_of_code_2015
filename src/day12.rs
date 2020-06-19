@@ -40,8 +40,8 @@ pub fn run() {
         .map(|mat| mat.as_str().parse::<i64>().expect("couldn't parse number?"))
         .sum::<i64>();
 
-    println!("sum is {}", sum);
+    println!("Part 1: {}", sum);
 
     let v: Value = serde_json::from_str(&input).unwrap();
-    println!("proper sum is {}", compute_sum(&v));
+    println!("Part 2: {}", compute_sum(&v));
 }

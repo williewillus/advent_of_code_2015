@@ -1,11 +1,7 @@
 use std::cmp::min;
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
+use crate::util;
 
-const PART_2: bool = true;
-
-fn parse_dims(s: String) -> (u32, u32, u32) {
+fn parse_dims(s: &str) -> (u32, u32, u32) {
     let dims: Vec<_> = s.split('x').collect();
     let l = dims[0].parse().expect("malformed number");
     let w = dims[1].parse().expect("malformed number");
@@ -13,7 +9,7 @@ fn parse_dims(s: String) -> (u32, u32, u32) {
     (l, w, h)
 }
 
-fn calculate_ribbon(s: String) -> u32 {
+fn calculate_ribbon(s: &str) -> u32 {
     let (l, w, h) = parse_dims(s);
 
     let lw = 2 * l + 2 * w;
@@ -25,7 +21,7 @@ fn calculate_ribbon(s: String) -> u32 {
     wrap + bow
 }
 
-fn calculate_wrapping_paper(s: String) -> u32 {
+fn calculate_wrapping_paper(s: &str) -> u32 {
     let (l, w, h) = parse_dims(s);
 
     let lw = l * w;
@@ -39,20 +35,11 @@ fn calculate_wrapping_paper(s: String) -> u32 {
 }
 
 pub fn run() {
-    let rdr = BufReader::new(File::open("d2_input.txt").expect("Couldn't read input file"));
-    let needed = rdr
-        .lines()
-        .map(|r| r.expect("Failure reading line"))
-        .map(if PART_2 {
-            calculate_ribbon
-        } else {
-            calculate_wrapping_paper
-        })
-        .sum::<u32>();
+    let lines = util::lines("d2_input.txt").unwrap();
 
-    println!(
-        "Needed {}: {} ft^2",
-        if PART_2 { "ribbon" } else { "wrapping paper" },
-        needed
-    );
+    let p1 = lines.iter().map(|s| calculate_wrapping_paper(s)).sum::<u32>();
+    println!("Part 1: {}", p1);
+
+    let p2 = lines.iter().map(|s| calculate_ribbon(s)).sum::<u32>();
+    println!("Part 2: {}", p2);
 }

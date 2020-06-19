@@ -1,9 +1,5 @@
 use pcre::Pcre;
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
-
-const PART_2: bool = true;
+use crate::util;
 
 fn is_vowel(c: char) -> bool {
     match c {
@@ -26,7 +22,7 @@ fn has_consecutive_letters(s: &str) -> bool {
     false
 }
 
-fn is_nice_1(s: &String) -> bool {
+fn is_nice_1(s: &str) -> bool {
     !s.contains("ab")
         && !s.contains("cd")
         && !s.contains("pq")
@@ -35,7 +31,7 @@ fn is_nice_1(s: &String) -> bool {
         && has_consecutive_letters(s)
 }
 
-fn is_nice_2(s: &String) -> bool {
+fn is_nice_2(s: &str) -> bool {
     let mut nonoverlap = Pcre::compile(r"([a-z]{2}).*?\1").unwrap();
     let mut repeat = Pcre::compile(r"([a-z])[a-z]\1").unwrap();
 
@@ -46,16 +42,11 @@ fn is_nice_2(s: &String) -> bool {
 }
 
 pub fn run() {
-    let rdr = BufReader::new(File::open("d5_input.txt").expect("Couldn't open input file!"));
+    let lines = util::lines("d5_input.txt").unwrap();
 
-    let nice_count = rdr
-        .lines()
-        .map(|r| r.expect("Failure reading line"))
-        .filter(if PART_2 { is_nice_2 } else { is_nice_1 })
-        .count();
-    println!(
-        "{} nice {} strings",
-        nice_count,
-        if PART_2 { "v2" } else { "v1" }
-    );
+    let p1 = lines.iter().filter(|s| is_nice_1(s)).count();
+    println!("Part 1: {}", p1);
+
+    let p2 = lines.iter().filter(|s| is_nice_2(s)).count();
+    println!("Part 2: {}", p2);
 }

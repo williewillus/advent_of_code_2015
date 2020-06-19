@@ -1,8 +1,4 @@
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
-
-const PART_2: bool = true;
+use crate::util;
 
 // true => rA, false => rB. yay arbitrary encoding.
 #[derive(Debug)]
@@ -29,7 +25,7 @@ fn parse_jump_target(s: &str) -> i32 {
     s.parse().expect("invalid jump target")
 }
 
-fn decode(s: String) -> Insn {
+fn decode(s: &str) -> Insn {
     match &s[0..3] {
         "hlf" => Insn::HALF(is_reg_a(&s)),
         "tpl" => Insn::TRIPLE(is_reg_a(&s)),
@@ -41,15 +37,8 @@ fn decode(s: String) -> Insn {
     }
 }
 
-pub fn run() {
-    let rdr = BufReader::new(File::open("d23_input.txt").expect("Couldn't open input file!"));
-
-    let insns = rdr
-        .lines()
-        .map(|r| decode(r.expect("Failure reading line")))
-        .collect::<Vec<_>>();
-
-    let mut machine = if PART_2 {
+fn compute(insns: &[Insn], p2: bool) -> u32 {
+    let mut machine = if p2 {
         Machine { a: 1, b: 0, pc: 0 }
     } else {
         Machine { a: 0, b: 0, pc: 0 }
@@ -105,5 +94,14 @@ pub fn run() {
         }
     }
 
-    println!("{}", machine.b);
+    machine.b
+}
+
+pub fn run() {
+    let insns = util::lines("d23_input.txt").unwrap()
+        .iter()
+        .map(|s| decode(s))
+        .collect::<Vec<_>>();
+    println!("Part 1: {}", compute(&insns, false));
+    println!("Part 2: {}", compute(&insns, true));
 }

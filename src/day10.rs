@@ -1,6 +1,6 @@
 const INPUT: &str = "1113222113";
 
-fn compute(iters: u32) {
+fn compute(iters: u32) -> usize {
     let mut s = String::from(INPUT);
     let mut temp = String::new();
 
@@ -29,14 +29,12 @@ fn compute(iters: u32) {
         s.clear();
         s += temp.as_str();
         temp.clear();
-
-        // println!("{}", s);
     }
 
-    println!("{}", s.len());
+    s.len()
 }
 
 pub fn run() {
-    compute(40);
-    compute(50);
+    println!("Part 1: {}", compute(40));
+    println!("Part 2: {}", compute(50));
 }

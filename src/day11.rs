@@ -43,14 +43,12 @@ pub fn run() {
     let mut valid_found = 0;
 
     loop {
-        {
-            if is_valid(&bytes) {
-                println!("{}", str::from_utf8(&bytes).unwrap());
-
-                valid_found += 1;
-                if valid_found == 2 {
-                    break;
-                }
+        if is_valid(&bytes) {
+            println!("{}", str::from_utf8(&bytes).unwrap());
+            
+            valid_found += 1;
+            if valid_found == 2 {
+                break;
             }
         }
 

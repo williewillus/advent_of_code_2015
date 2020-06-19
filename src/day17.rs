@@ -1,18 +1,13 @@
-use std::fs::File;
-use std::io::BufRead;
-use std::io::BufReader;
+use crate::util;
 
 pub fn run() {
-    let rdr = BufReader::new(File::open("d17_input.txt").expect("Couldn't read input file"));
-    let sizes = rdr
-        .lines()
-        .map(|r| r.expect("Failure reading line"))
+    let sizes = util::lines("d17_input.txt").unwrap()
+        .iter()
         .map(|s| s.parse::<u32>().expect("bad container size"))
         .collect::<Vec<_>>();
 
-    // todo DP?
     let mut minimal_used = sizes.len() as u32;
-    let mut satisfying_masks = Vec::new();
+    let mut satisfying_masks = Vec::<u32>::new();
 
     for mask in 0..(1 << sizes.len()) {
         let mut total = 0;
@@ -33,12 +28,12 @@ pub fn run() {
         }
     }
 
-    println!("part 1: {}", satisfying_masks.len());
+    println!("Part 1: {}", satisfying_masks.len());
     println!(
-        "part 2: {}",
+        "Part 2: {}",
         satisfying_masks
             .iter()
-            .filter(|m: &&usize| m.count_ones() == minimal_used)
+            .filter(|m| m.count_ones() == minimal_used)
             .count()
     )
 }
